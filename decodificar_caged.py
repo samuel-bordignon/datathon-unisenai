@@ -1,18 +1,51 @@
 """Decodifica o Novo CAGED (movimentações) usando o Dicionario_de_dados.xlsx.
 
 Gera Novo_Caged_MOV_Legivel.csv com os códigos substituídos pelas descrições.
+
+Como usar:
+    1. Coloque Novo_Caged_MOV_Limpo.csv e Dicionario_de_dados.xlsx na mesma
+       pasta deste script.
+    2. Rode: python decodificar_caged.py
+
+O resultado (Novo_Caged_MOV_Legivel.csv e relatorio_decodificacao.txt) é
+gravado na mesma pasta do script. Nenhuma subpasta é criada ou necessária.
+
+Se os dados não estiverem na pasta do script, ele também procura uma e duas
+pastas acima. Para usar outra pasta, informe o caminho:
+    python decodificar_caged.py "C:\\caminho\\dos\\dados"
 """
+import sys
 from pathlib import Path
 
 import pandas as pd
 
-# Originais ficam na pasta datathon; gerados ficam em datathon/arquivos_gerados
-PASTA_GERADOS = Path(__file__).resolve().parent
-PASTA_ORIGINAIS = PASTA_GERADOS.parent
-ENTRADA = PASTA_ORIGINAIS / "Novo_Caged_MOV_Limpo.csv"
-DICIONARIO = PASTA_ORIGINAIS / "Dicionario_de_dados.xlsx"
-SAIDA = PASTA_GERADOS / "Novo_Caged_MOV_Legivel.csv"
-RELATORIO = PASTA_GERADOS / "relatorio_decodificacao.txt"
+NOME_ENTRADA = "Novo_Caged_MOV_Limpo.csv"
+NOME_DICIONARIO = "Dicionario_de_dados.xlsx"
+
+PASTA_SCRIPT = Path(__file__).resolve().parent
+if len(sys.argv) > 1:
+    CANDIDATAS = [Path(sys.argv[1]).expanduser().resolve()]
+else:
+    CANDIDATAS = [PASTA_SCRIPT, PASTA_SCRIPT.parent, PASTA_SCRIPT.parent.parent]
+PASTA_DADOS = next(
+    (p for p in CANDIDATAS
+     if (p / NOME_ENTRADA).is_file() and (p / NOME_DICIONARIO).is_file()),
+    None,
+)
+if PASTA_DADOS is None:
+    raise SystemExit(
+        f"Não encontrei {NOME_ENTRADA} e {NOME_DICIONARIO} juntos em:\n"
+        + "\n".join(f"  {p}" for p in CANDIDATAS)
+        + "\nColoque os dois arquivos na mesma pasta deste script ou informe a pasta:\n"
+        + '  python decodificar_caged.py "C:\\caminho\\dos\\dados"'
+    )
+
+ENTRADA = PASTA_DADOS / NOME_ENTRADA
+DICIONARIO = PASTA_DADOS / NOME_DICIONARIO
+SAIDA = PASTA_SCRIPT / "Novo_Caged_MOV_Legivel.csv"
+RELATORIO = PASTA_SCRIPT / "relatorio_decodificacao.txt"
+print(f"Lendo dados de: {PASTA_DADOS}")
+print(f"Gravando em:    {PASTA_SCRIPT}")
 
 
 def norm(v):

@@ -10,6 +10,10 @@ __pycache__/
 database/doc/*
 !database/doc/*/
 
+# Bases de dados e resultados gerados (grandes demais para o GitHub)
+*.csv
+relatorio_decodificacao.txt
+
 # Distribution / packaging
 .Python
 build/
