@@ -6,17 +6,18 @@
   <title>Apresentação Executiva — Raio-X do Mercado de Trabalho Industrial de SC</title>
   <style>
     :root {
-      --bg-dark: #090d16;
-      --card-bg: #111827;
-      --card-border: #1f2937;
+      --bg-dark: #070a12;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
       --primary: #38bdf8;
+      --primary-hover: #0284c7;
       --primary-glow: rgba(56, 189, 248, 0.25);
       --accent-green: #34d399;
       --accent-red: #f87171;
       --accent-amber: #fbbf24;
       --accent-purple: #a78bfa;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -43,8 +44,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 24px;
-      background: rgba(17, 24, 39, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--card-border);
       z-index: 100;
     }
@@ -170,11 +171,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      padding: 36px 60px 48px;
+      padding: 30px 50px 45px;
       opacity: 0;
       visibility: hidden;
       transform: translateX(40px);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       overflow-y: auto;
@@ -194,40 +195,40 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--primary);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .slide-title {
-      font-size: 2.2rem;
+      font-size: 2.15rem;
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.03em;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .slide-subtitle {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
-      margin-bottom: 24px;
-      max-width: 900px;
-      line-height: 1.45;
+      margin-bottom: 20px;
+      max-width: 950px;
+      line-height: 1.4;
     }
 
     /* GRIDS & LAYOUTS */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 20px;
       flex: 1;
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
+      gap: 18px;
       flex: 1;
     }
 
@@ -235,46 +236,51 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       position: relative;
       display: flex;
       flex-direction: column;
     }
 
     .card.highlight-blue {
-      border-color: rgba(56, 189, 248, 0.4);
+      border-color: rgba(56, 189, 248, 0.45);
       box-shadow: 0 4px 20px rgba(56, 189, 248, 0.08);
     }
 
     .card.highlight-green {
-      border-color: rgba(52, 211, 153, 0.4);
+      border-color: rgba(52, 211, 153, 0.45);
       box-shadow: 0 4px 20px rgba(52, 211, 153, 0.08);
     }
 
     .card.highlight-red {
-      border-color: rgba(248, 113, 113, 0.4);
+      border-color: rgba(248, 113, 113, 0.45);
       box-shadow: 0 4px 20px rgba(248, 113, 113, 0.08);
+    }
+
+    .card.highlight-amber {
+      border-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.08);
     }
 
     .card-title {
       font-size: 0.95rem;
       font-weight: 700;
-      color: #e2e8f0;
-      margin-bottom: 12px;
+      color: #f1f5f9;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .kpi-num {
-      font-size: 2.3rem;
+      font-size: 2.2rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -282,7 +288,7 @@
     }
 
     .kpi-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       text-transform: uppercase;
       font-weight: 600;
@@ -301,11 +307,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 12px;
+      padding: 9px 12px;
       margin-bottom: 8px;
       background: #1e293b;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .ranking-name {
@@ -314,44 +320,116 @@
     }
 
     .ranking-details {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
     .ranking-val {
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1rem;
       text-align: right;
     }
 
     .val-positive { color: var(--accent-green); }
     .val-negative { color: var(--accent-red); }
 
-    /* CHARTS / PROGRESS */
+    /* VISUAL BARS */
     .bar-row {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .bar-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       margin-bottom: 4px;
       font-weight: 600;
     }
 
     .bar-track {
       background: #1e293b;
-      height: 10px;
-      border-radius: 5px;
+      height: 9px;
+      border-radius: 4px;
       overflow: hidden;
       display: flex;
     }
 
     .bar-fill {
       height: 100%;
-      border-radius: 5px;
+      border-radius: 4px;
+    }
+
+    /* MINI CHART CONTAINER */
+    .chart-thumbnail {
+      border: 1px solid #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: #000;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .chart-thumbnail:hover {
+      transform: scale(1.02);
+      border-color: var(--primary);
+    }
+    .chart-thumbnail img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .chart-thumbnail:hover img {
+      opacity: 1;
+    }
+    .chart-thumbnail .overlay-btn {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--primary);
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* MODAL LIGHTBOX */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(3, 7, 18, 0.94);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+    #lightbox.active {
+      display: flex;
+    }
+    #lightbox-img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      border: 1px solid #334155;
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #475569;
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
     }
 
     /* SPEAKER NOTES DRAWER */
@@ -360,10 +438,10 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(15, 23, 42, 0.97);
       backdrop-filter: blur(10px);
       border-top: 2px solid var(--primary);
-      padding: 18px 48px;
+      padding: 16px 40px;
       transform: translateY(100%);
       transition: transform 0.3s ease;
       z-index: 90;
@@ -381,12 +459,12 @@
       align-items: center;
       margin-bottom: 8px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--primary);
     }
 
     .notes-text {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #cbd5e1;
       line-height: 1.6;
     }
@@ -397,7 +475,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 30px;
-      background: #0f172a;
+      background: #090d16;
       border-top: 1px solid var(--card-border);
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -405,7 +483,7 @@
     }
 
     .progress-bar-container {
-      width: 180px;
+      width: 160px;
       height: 6px;
       background: #1e293b;
       border-radius: 3px;
@@ -423,18 +501,18 @@
     .quote-box {
       background: rgba(56, 189, 248, 0.06);
       border-left: 4px solid var(--primary);
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-radius: 0 10px 10px 0;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       line-height: 1.5;
       font-style: italic;
       color: #e0f2fe;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .tag {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 4px;
       font-size: 0.72rem;
       font-weight: 700;
@@ -448,18 +526,18 @@
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
     }
     table.data-table th {
       text-align: left;
-      padding: 8px 10px;
+      padding: 7px 9px;
       background: #1e293b;
       color: #94a3b8;
       font-weight: 600;
       border-bottom: 2px solid #334155;
     }
     table.data-table td {
-      padding: 8px 10px;
+      padding: 7px 9px;
       border-bottom: 1px solid #1e293b;
     }
     table.data-table tr:hover {
@@ -477,7 +555,7 @@
     </div>
 
     <div class="timer-container">
-      <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">PITCH 3 MIN:</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">PITCH (3 MIN):</span>
       <div class="timer-display" id="timer">03:00</div>
       <button class="timer-btn" id="btn-timer-toggle" title="Iniciar / Pausar">▶ Iniciar</button>
       <button class="timer-btn" id="btn-timer-reset" title="Reiniciar">↺</button>
@@ -497,7 +575,7 @@
 
     <!-- SLIDE 1: CAPA & PERGUNTA DE NEGÓCIO -->
     <section class="slide active" data-slide="1">
-      <span class="slide-badge">Consultoria Estratégica de Dados</span>
+      <span class="slide-badge">Consultoria Estratégica de Dados | Datathon 2026</span>
       <h1 class="slide-title">Raio-X do Mercado de Trabalho e Vagas Industriais em SC</h1>
       <p class="slide-subtitle">Diagnóstico Estratégico Integrado do Novo CAGED e Projeções para a Indústria Catarinense</p>
 
@@ -506,23 +584,23 @@
         “Quais regiões e setores industriais de Santa Catarina estão enfrentando apagão de mão de obra ou expansão acelerada, e como os indicadores de renda e escolaridade explicam esses gargalos?”
       </div>
 
-      <div class="grid-3" style="margin-top: 10px;">
+      <div class="grid-3">
         <div class="card highlight-blue">
           <div class="card-title"><span class="tag tag-blue">EIXO 1</span> Territorial & Setorial</div>
-          <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.45;">
-            Identificação de polos em expansão acelerada vs. retração crítica e cálculo do <strong>Saldo por 10.000 Habitantes</strong>.
+          <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.45;">
+            Distribuição espacial das 1,14M de vagas, identificando polos em expansão acelerada vs. retração crítica e cálculo do <strong>Saldo por 10.000 Habitantes</strong>.
           </p>
         </div>
         <div class="card highlight-green">
           <div class="card-title"><span class="tag tag-green">EIXO 2</span> Perfil Socioeconômico</div>
-          <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.45;">
-            Desagregação inédita de <strong>Pedidos de Demissão (Cód 40)</strong> vs. <strong>Demissão pela Empresa (Cód 31)</strong> e dinâmica salarial.
+          <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.45;">
+            Desagregação inédita de <strong>Pedidos de Demissão (Cód 40)</strong> vs. <strong>Demissão pela Empresa (Cód 31)</strong> e teste empírico de compressão salarial.
           </p>
         </div>
         <div class="card highlight-amber">
           <div class="card-title"><span class="tag tag-amber">EIXO 3</span> Qualificação & IA (CBO)</div>
-          <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.45;">
-            Classificação semântica assistida por IA de mais de 2.000 CBOs em <strong>19 macrofamílias</strong> para auditar a raiz da escassez.
+          <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.45;">
+            Classificação semântica de mais de 2.000 CBOs em <strong>19 macrofamílias funcionais</strong> para auditar se faltam engenheiros ou chão de fábrica.
           </p>
         </div>
       </div>
@@ -560,18 +638,18 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-title">Por que o número agregado é perigoso para decisões de negócios?</div>
-          <ul style="margin-left: 20px; line-height: 1.7; font-size: 0.92rem; color: #cbd5e1;">
-            <li>O saldo de <strong>+2.645</strong> faz parecer que o mercado de trabalho industrial catarinense está em calmaria.</li>
-            <li>Na prática, <strong>568 mil operários foram desligados</strong> — um volume equivalente à população de Joinville inteira trocando de posto em 1 ano.</li>
+          <ul style="margin-left: 20px; line-height: 1.65; font-size: 0.9rem; color: #cbd5e1;">
+            <li>O saldo de <strong>+2.645</strong> faz parecer que o mercado de trabalho catarinense está em equilíbrio estático.</li>
+            <li>Na prática, <strong>568 mil operários foram desligados</strong> — equivalente à população inteira de Joinville trocando de posto de trabalho em apenas 1 ano.</li>
             <li>Enquanto o Litoral Norte e o Agro-Oeste sofrem com sobrecarga de vagas e falta de gente, o Vale Têxtil perdeu milhares de postos qualificados.</li>
           </ul>
         </div>
         <div class="card">
-          <div class="card-title">Rigor Metodológico Aplicado (Critério MTE)</div>
-          <ul style="margin-left: 20px; line-height: 1.7; font-size: 0.92rem; color: #cbd5e1;">
+          <div class="card-title">Rigor Metodológico Aplicado (Critério Oficial MTE)</div>
+          <ul style="margin-left: 20px; line-height: 1.65; font-size: 0.9rem; color: #cbd5e1;">
             <li>Filtro oficial de consistência salarial: <strong>0,3 a 150 salários mínimos</strong> vigentes (R$ 1.518 em 2025 e R$ 1.621 em 2026).</li>
             <li>Exclusão de contratos intermitentes sem base de horas: <strong>1.128.842 salários válidos (99,05% de integridade)</strong>.</li>
-            <li>Cruzamento com a malha territorial e Censo/Estimativas IBGE 2026 para os 295 municípios de SC.</li>
+            <li>Cruzamento relacional via chave IBGE 7 dígitos com população estimada 2026 para os 295 municípios de SC.</li>
           </ul>
         </div>
       </div>
@@ -591,7 +669,7 @@
           <div class="ranking-item">
             <div>
               <div class="ranking-name">1. Navegantes (Foz do Rio Itajaí)</div>
-              <div class="ranking-details">11.819 adm | 9.054 des | Pesa na indústria naval e portuária</div>
+              <div class="ranking-details">11.819 adm | 9.054 des | Cadeia naval, reboques e porto</div>
             </div>
             <div class="ranking-val val-positive">+2.765 <span style="font-size:0.75rem; color:#94a3b8; display:block;">(280,9 / 10k hab)</span></div>
           </div>
@@ -674,6 +752,14 @@
           </div>
         </div>
       </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">VISUALIZAÇÃO OFICIAL GERADA PELOS SCRIPTS:</span>
+        <div class="chart-thumbnail" style="width: 220px;" onclick="openLightbox('../database/resultados/eixo1_territorial/mapa_saldo.png')">
+          <img src="../database/resultados/eixo1_territorial/mapa_saldo.png" alt="Mapa do Saldo de Empregos SC">
+          <div class="overlay-btn">🔍 Ver Mapa do Saldo</div>
+        </div>
+      </div>
     </section>
 
     <!-- SLIDE 4: EIXO 1 - SETORES CNAE -->
@@ -683,7 +769,7 @@
       <p class="slide-subtitle">Divisões da CNAE com as maiores transformações estruturais de emprego.</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card highlight-green">
           <div class="card-title" style="color: var(--accent-green);">Top Divisões Industriais em Expansão</div>
 
           <div class="bar-row">
@@ -723,7 +809,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card highlight-red">
           <div class="card-title" style="color: var(--accent-red);">Top Divisões Industriais em Retração</div>
 
           <div class="bar-row">
@@ -763,6 +849,18 @@
           </div>
         </div>
       </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">GRÁFICOS DOS SETORES GERADOS PELOS SCRIPTS:</span>
+        <div class="chart-thumbnail" style="width: 180px;" onclick="openLightbox('../database/resultados/eixo1_territorial/setores_motivos_desligamento.png')">
+          <img src="../database/resultados/eixo1_territorial/setores_motivos_desligamento.png" alt="Motivos de Desligamento por Setor">
+          <div class="overlay-btn">🔍 Motivos por Setor</div>
+        </div>
+        <div class="chart-thumbnail" style="width: 180px;" onclick="openLightbox('../database/resultados/eixo1_territorial/setores_admissoes.png')">
+          <img src="../database/resultados/eixo1_territorial/setores_admissoes.png" alt="Admissões por Setor">
+          <div class="overlay-btn">🔍 Admissões Setoriais</div>
+        </div>
+      </div>
     </section>
 
     <!-- SLIDE 5: EIXO 2 - O PARADIGMA DO CÓDIGO 40 -->
@@ -771,7 +869,7 @@
       <h2 class="slide-title">A Revelação: Código 40 vs. Código 31</h2>
       <p class="slide-subtitle">Por que o trabalhador sai? Quase metade de todos os desligamentos de SC ocorre a pedido do empregado.</p>
 
-      <div class="grid-3" style="margin-bottom: 20px;">
+      <div class="grid-3" style="margin-bottom: 16px;">
         <div class="card highlight-blue">
           <div class="kpi-num" style="color: #38bdf8;">47,7%</div>
           <div class="kpi-label">Pedido de Demissão (Cód 40)</div>
@@ -790,11 +888,19 @@
       </div>
 
       <div class="card highlight-blue">
-        <div class="card-title">A Raiz do Apagão de Mão de Obra Não é Falta de Gente: É Falta de Retenção!</div>
-        <p style="font-size: 0.95rem; line-height: 1.6; color: #cbd5e1;">
+        <div class="card-title">A Raiz do Apagão de Mão de Obra Não é Falta de Pessoas: É Falta de Retenção!</div>
+        <p style="font-size: 0.92rem; line-height: 1.55; color: #cbd5e1;">
           Em um estado com desemprego abaixo de 3%, o operário não tolera condições de trabalho pesadas sem perspectiva salarial. 
-          O fato de <strong>47,7% de todas as rescisões partirem do trabalhador</strong> comprova que as fábricas estão sofrendo de uma <em>"evasão ativa"</em> para o setor de serviços, turismo, logística e comércio — que oferecem salários similares ou maior flexibilidade.
+          O fato de <strong>47,7% de todas as rescisões partirem do trabalhador</strong> comprova que as fábricas sofrem de uma <em>"evasão ativa"</em> para serviços, turismo, logística e comércio — setores que pagam igual sem o esforço físico da indústria.
         </p>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">GRÁFICO OFICIAL DE SALÁRIOS POR MOTIVO:</span>
+        <div class="chart-thumbnail" style="width: 260px;" onclick="openLightbox('../database/resultados/eixo2_socioeconomico/salarios_por_motivo_movimentacao.png')">
+          <img src="../database/resultados/eixo2_socioeconomico/salarios_por_motivo_movimentacao.png" alt="Salários por Motivo de Movimentação">
+          <div class="overlay-btn">🔍 Ver Gráfico Salários x Motivo</div>
+        </div>
       </div>
     </section>
 
@@ -802,11 +908,11 @@
     <section class="slide" data-slide="6">
       <span class="slide-badge">Eixo 2 — Renda & Escolaridade</span>
       <h2 class="slide-title">Estagnação na Base e Compressão no Topo</h2>
-      <p class="slide-subtitle">A matemática dos salários explica com perfeição cirúrgica os gargalos da indústria.</p>
+      <p class="slide-subtitle">A matemática dos salários responde à pergunta de negócio com evidências empíricas.</p>
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">1. A Armadilha Salarial de Quem Pede para Sair (Cód. 40)</div>
+          <div class="card-title">1. Ensino Médio: Estagnação no Piso (Cód. 40)</div>
           <table class="data-table">
             <tr>
               <th>Indicador</th>
@@ -816,30 +922,30 @@
             </tr>
             <tr>
               <td><strong>Salário Mediano</strong></td>
-              <td>R$ 2.209,85</td>
-              <td>R$ 2.241,80</td>
-              <td class="val-positive">+R$ 31,95 (+1,4%)</td>
+              <td>R$ 2.240,91</td>
+              <td>R$ 2.256,70</td>
+              <td class="val-positive">+R$ 15,79 (+0,7%)</td>
             </tr>
             <tr>
               <td><strong>Salário Médio</strong></td>
-              <td>R$ 2.478,48</td>
-              <td>R$ 2.523,06</td>
-              <td class="val-positive">+R$ 44,58 (+1,8%)</td>
+              <td>R$ 2.480,25</td>
+              <td>R$ 2.482,24</td>
+              <td class="val-positive">+R$ 1,99 (0,0%)</td>
             </tr>
             <tr>
-              <td><strong>% Ensino Superior</strong></td>
-              <td>4,24%</td>
-              <td>4,88%</td>
-              <td>Quase idêntico</td>
+              <td><strong>Volume</strong></td>
+              <td>320.399 admitidos</td>
+              <td>154.075 saídas</td>
+              <td>Massa principal</td>
             </tr>
           </table>
-          <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 14px; line-height: 1.5;">
-            <strong>Diagnóstico:</strong> O trabalhador passa meses ou anos na empresa e sua remuneração real praticamente não se move (+R$ 32 na mediana). Ao menor atrito ou oferta de transporte/comércio, ele pede para sair.
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 12px; line-height: 1.45;">
+            <strong>Diagnóstico:</strong> No Ensino Médio (60% da indústria), quem pede demissão ganha apenas <strong>R$ 15,79 a mais</strong> por mês do que o novato que entra. Sem perspectiva de crescimento, a evasão é inevitável.
           </p>
         </div>
 
         <div class="card">
-          <div class="card-title">2. A "Economia da Troca" Precarizante (Cód. 31)</div>
+          <div class="card-title">2. Superior Completo: Compressão Salarial Brutal (Cód. 31)</div>
           <table class="data-table">
             <tr>
               <th>Indicador</th>
@@ -849,26 +955,38 @@
             </tr>
             <tr>
               <td><strong>Salário Médio</strong></td>
-              <td>R$ 2.962,35</td>
-              <td>R$ 2.478,48</td>
-              <td class="val-negative">-R$ 483,87 (-16,3%)</td>
+              <td>R$ 5.461,57</td>
+              <td>R$ 4.094,40</td>
+              <td class="val-negative">-R$ 1.367,17 (-25,0%)</td>
             </tr>
             <tr>
               <td><strong>Salário Mediano</strong></td>
-              <td>R$ 2.556,00</td>
-              <td>R$ 2.209,85</td>
-              <td class="val-negative">-R$ 346,15 (-13,5%)</td>
+              <td>R$ 4.062,33</td>
+              <td>R$ 3.203,27</td>
+              <td class="val-negative">-R$ 859,06 (-21,1%)</td>
             </tr>
             <tr>
-              <td><strong>% Superior Compl.</strong></td>
-              <td>5,80%</td>
-              <td>4,24%</td>
-              <td class="val-negative">-26,9% de instrução</td>
+              <td><strong>Volume</strong></td>
+              <td>9.609 demitidos</td>
+              <td>21.265 admitidos</td>
+              <td>Troca sistemática</td>
             </tr>
           </table>
-          <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 14px; line-height: 1.5;">
-            <strong>Diagnóstico:</strong> A indústria demite quadros experientes e qualificados para rebaixar o custo de folha, contratando novatos mais baratos. O resultado é a destruição da produtividade e turnover crônico.
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 12px; line-height: 1.45;">
+            <strong>Diagnóstico:</strong> A empresa demite profissionais de nível superior ganhando R$ 5.461 e admite substitutos a R$ 4.094 — um deságio de <strong>-25,0%</strong> na folha que comprova a tese de compressão salarial.
           </p>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">GRÁFICOS DE ESCOLARIDADE E SALÁRIO GERADOS PELOS SCRIPTS:</span>
+        <div class="chart-thumbnail" style="width: 220px;" onclick="openLightbox('../database/resultados/eixo2_socioeconomico/ranking_diferencas_salariais.png')">
+          <img src="../database/resultados/eixo2_socioeconomico/ranking_diferencas_salariais.png" alt="Ranking Diferenças Salariais">
+          <div class="overlay-btn">🔍 Ranking Salarial</div>
+        </div>
+        <div class="chart-thumbnail" style="width: 220px;" onclick="openLightbox('../database/resultados/eixo2_socioeconomico/escolaridade.png')">
+          <img src="../database/resultados/eixo2_socioeconomico/escolaridade.png" alt="Distribuição por Escolaridade">
+          <div class="overlay-btn">🔍 Escolaridade SC</div>
         </div>
       </div>
     </section>
@@ -880,17 +998,17 @@
       <p class="slide-subtitle">A IA agrupou as centenas de ocupações detalhadas para responder: faltam engenheiros ou operários?</p>
 
       <div class="grid-3" style="margin-bottom: 16px;">
-        <div class="card">
+        <div class="card highlight-green">
           <div class="kpi-num" style="color: var(--accent-green);">+9.622</div>
           <div class="kpi-label">Produção e Apoio Industrial</div>
           <div class="kpi-sub">319k movimentações | Salário Médio R$ 2.304 | <strong>52,8% pedidos voluntários</strong></div>
         </div>
-        <div class="card">
+        <div class="card highlight-green">
           <div class="kpi-num" style="color: var(--accent-green);">+2.925</div>
           <div class="kpi-label">Alimentos e Bebidas</div>
           <div class="kpi-sub">48,7k movimentações | Salário R$ 2.169 | <strong>62,1% pedidos voluntários (PICO)</strong></div>
         </div>
-        <div class="card">
+        <div class="card highlight-red">
           <div class="kpi-num" style="color: var(--accent-red);">-3.446</div>
           <div class="kpi-label">Têxtil, Vestuário e Couro</div>
           <div class="kpi-sub">108k movimentações | Salário R$ 2.287 | <strong>55,3% pedidos voluntários</strong></div>
@@ -903,7 +1021,7 @@
           <p style="font-size: 0.88rem; line-height: 1.55; color: #cbd5e1;">
             • <strong>Engenharia e Projetos:</strong> Movimentou apenas 9.701 pessoas com saldo de <strong>-763</strong> e salário de R$ 4.964.<br>
             • <strong>Gestão e Direção:</strong> Saldo de <strong>-3.709 vagas</strong> com salário médio de R$ 6.250.<br>
-            • <strong>Conclusão da IA:</strong> Não há escassez quantitativa de engenheiros ou gestores desestabilizando o estado; a indústria enxugou lideranças. O verdadeiro apagão está nos <strong>alimentadores de linha, operadores de máquinas, frigoríficos e costureiras</strong>.
+            • <strong>Conclusão da IA:</strong> Não há escassez de engenheiros ou diretores desestabilizando a indústria; as empresas enxugaram lideranças. O verdadeiro apagão está nos <strong>alimentadores de linha, operadores de máquinas, frigoríficos e costureiras</strong>.
           </p>
         </div>
         <div class="card">
@@ -913,6 +1031,18 @@
             • Mapeamento determinístico auditável, eliminando alucinações e ruídos estatísticos.<br>
             • Permitiu cruzar município, setor e função na escala de 1,14 milhão de linhas em segundos.
           </p>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">GRÁFICOS DE IA GERADOS PELOS SCRIPTS:</span>
+        <div class="chart-thumbnail" style="width: 220px;" onclick="openLightbox('../database/resultados/eixo3_qualificacao/macrofamilias_motivos_saida.png')">
+          <img src="../database/resultados/eixo3_qualificacao/macrofamilias_motivos_saida.png" alt="Motivos de Saída por Macrofamília">
+          <div class="overlay-btn">🔍 Motivos por Macrofamília</div>
+        </div>
+        <div class="chart-thumbnail" style="width: 220px;" onclick="openLightbox('../database/resultados/eixo3_qualificacao/macrofamilias_admissoes.png')">
+          <img src="../database/resultados/eixo3_qualificacao/macrofamilias_admissoes.png" alt="Admissões por Macrofamília">
+          <div class="overlay-btn">🔍 Admissões por Macrofamília</div>
         </div>
       </div>
     </section>
@@ -991,7 +1121,7 @@
       <div class="card highlight-amber">
         <div class="card-title">Evidência Definitiva de Apagão por Desatratividade Salarial</div>
         <p style="font-size: 0.9rem; line-height: 1.5; color: #cbd5e1;">
-          Em <strong>Concórdia</strong> e <strong>Videira</strong>, quase 3 em cada 4 operários demitidos saem por vontade própria (74,9% e 71,6%). 
+          Em <strong>Concórdia</strong> e <strong>Videira</strong>, quase 3 em cada 4 operários desligados saem por vontade própria (74,9% e 71,6%). 
           A remuneração paga está até <strong>15% abaixo da referência estadual</strong> para o mesmo nível de instrução, em ambientes frigoríficos insalubres. A indústria enfrenta falta crônica de pessoal porque paga abaixo do limiar de atratividade da região.
         </p>
       </div>
@@ -1017,7 +1147,7 @@
           <div class="card-title" style="color: var(--accent-green);">Eixo 2: POR QUE Acontece?</div>
           <div style="font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
             <p><strong>47,7% Saídas a Pedido (Cód 40):</strong> O operário não é demitido, ele abandona a fábrica por estagnação salarial (mediana R$ 2.241).</p>
-            <p style="margin-top: 8px;"><strong>Substituição Salarial (Cód 31):</strong> Empresas demitem experientes a R$ 2.962 e recontratam a R$ 2.478 (-16,3%).</p>
+            <p style="margin-top: 8px;"><strong>Substituição Salarial (Cód 31):</strong> Empresas demitem experientes com nível superior a R$ 5.461 e recontratam a R$ 4.094 (-25,0%).</p>
           </div>
         </div>
 
@@ -1033,7 +1163,7 @@
       <div class="card" style="margin-top: 16px;">
         <div class="card-title">Resposta Sintética para a Banca Avaliadora</div>
         <p style="font-size: 0.95rem; line-height: 1.6; color: #e2e8f0;">
-          O apagão industrial em Santa Catarina <strong>não decorre da escassez populacional nem da falta de diplomas universitários</strong>, mas de um <strong>modelo de contratação que remunera a base operacional no piso (R$ 2.241)</strong> em um estado com pleno emprego. A expansão acelerada concentra-se em corredores portuários e agroindustriais, enquanto os polos tradicionais têxteis perdem competitividade.
+          O apagão industrial em Santa Catarina <strong>não decorre da escassez de diplomas universitários nem da falta de população</strong>, mas de um <strong>modelo de contratação que remunera a base operacional no piso estagnado (R$ 2.241)</strong> em um estado com pleno emprego. A expansão acelerada concentra-se em corredores portuários e agroindustriais, enquanto os polos tradicionais têxteis perdem competitividade.
         </p>
       </div>
     </section>
@@ -1081,6 +1211,12 @@
 
   </main>
 
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox">
+    <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="Gráfico Ampliado">
+  </div>
+
   <!-- SPEAKER NOTES DRAWER -->
   <div id="notes-drawer">
     <div class="notes-header">
@@ -1098,6 +1234,8 @@
       <span>Datathon 2026 — Ciência de Dados & IA</span>
       <span>•</span>
       <span>Use as setas ◀ ▶ ou barra de espaço para navegar</span>
+      <span>•</span>
+      <span>Clique nos gráficos para ampliá-los</span>
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
@@ -1109,6 +1247,20 @@
   </footer>
 
   <script>
+    // LIGHTBOX
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
     // SLIDE DATA & NOTES
     const notesData = {
       1: "Boa tarde, banca avaliadora. Hoje apresentamos o diagnóstico estratégico do mercado de trabalho industrial de Santa Catarina, baseado nos microdados públicos do Novo CAGED. Fomos contratados como consultoria especializada para responder: onde está o apagão, onde está a expansão acelerada e como a renda e a escolaridade explicam esses gargalos.",
@@ -1116,10 +1268,10 @@
       3: "No Eixo 1 Territorial, o mapa se divide: de um lado, polos de expansão brutal como Navegantes, com +2.765 vagas e 281 postos por 10 mil habitantes, puxada pela cadeia naval e portuária. Joinville lidera em volume absoluto com +1.527 vagas, e no Oeste, Guatambú tem a absurda taxa de 598 vagas por 10k hab. Do outro lado, Blumenau e Gaspar amargam retração de mais de 1.300 vagas, e São José perdeu quase mil postos.",
       4: "No Eixo 1 Setorial, vemos claramente quem impulsiona e quem recua. O setor de Alimentos e Bebidas abriu +4.739 postos no Oeste e Litoral. Máquinas Elétricas em Joinville gerou +2.018. Em contrapartida, a Confecção de Vestuário encolheu em -4.571 postos — um encolhimento estrutural que afeta todo o Vale do Itajaí.",
       5: "Aqui está o grande achado do Eixo 2: quando separamos os motivos de saída, descobrimos que quase metade — 47,7%, ou 271 mil desligamentos — ocorreu por Pedido de Demissão espontâneo do trabalhador (Código 40). O mito de que a indústria demite porque o operário não é produtivo cai por terra: é o operário que está abandonando a fábrica.",
-      6: "E por que o operário abandona a fábrica? Olhem a tabela da esquerda: a mediana salarial de quem pede demissão é R$ 2.241, apenas 32 reais a mais do que o novato que acabou de ser admitido. Não há progressão na base. E na tabela da direita, vemos que a empresa demite operários seniores a R$ 2.962 e recontrata novatos a R$ 2.478 — uma economia de 16% na folha que destrói a retenção técnica.",
+      6: "E por que o operário abandona a fábrica? Olhem a tabela da esquerda: no Ensino Médio, quem pede demissão ganha apenas 15 reais a mais do que o novato que entrou. Não há perspectiva. E na tabela da direita, comprovamos a compressão salarial: no Ensino Superior, a indústria demite veteranos ganhando R$ 5.461 para contratar novos a R$ 4.094 — um deságio de 25% na folha!",
       7: "No Eixo 3, aplicamos IA para sintetizar mais de 2.000 CBOs em 19 macrofamílias. O resultado responde diretamente ao Guia: faltam engenheiros? Não! Engenharia e Gestão tiveram saldo negativo e salários acima de R$ 5.000. O gargalo é 100% focado no chão de fábrica operacional e em alimentos, onde os pedidos de demissão voluntária chegam a 62%!",
       8: "Cruzando tudo na nossa Matriz de Risco, encontramos os epicentros do apagão: em Concórdia e Videira, 75% e 71% de todos os desligamentos de frigoríficos ocorrem a pedido do trabalhador, com salários até 15% abaixo da referência estadual. É o apagão por desatratividade salarial e condições insalubres.",
-      9: "Conectando os três eixos para responder à pergunta da banca: Onde está a expansão? No eixo portuário e agroindustrial. Onde está o apagão? Nos frigoríficos do Oeste e nas linhas de montagem do Norte. E como a renda explica? Pela estagnação no piso de R$ 2.200 em um estado com pleno emprego, onde serviços e logística pagam igual sem a dureza do turno fabril.",
+      9: "Conectando os três eixos para responder à pergunta da banca: Onde está a expansão? No eixo portuário e agroindustrial. Onde está o apagão? Nos frigoríficos do Oeste e nas linhas de montagem do Norte. E como a renda explica? Pela estagnação no piso de R$ 2.200 em um estado com pleno emprego e pela compressão salarial de 25% no ensino superior.",
       10: "Encerramos com três soluções acionáveis para a FIESC: primeiro, implementar plano de carreira de 24 meses no chão de fábrica; segundo, cursos rápidos do SENAI no local de trabalho vinculados a aumento salarial; e terceiro, consórcios intermunicipais de transporte e moradia em polos sob forte pressão demográfica. Muito obrigado!"
     };
 
@@ -1153,7 +1305,9 @@
     document.getElementById('btn-next').addEventListener('click', () => showSlide(currentSlide + 1));
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
         showSlide(currentSlide + 1);
       } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
         showSlide(currentSlide - 1);
