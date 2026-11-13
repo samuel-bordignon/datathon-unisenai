@@ -727,7 +727,7 @@
             <img src="../database/resultados/eixo2_socioeconomico/escolaridade.png" alt="Escolaridade de Admitidos e Desligados" class="chart-img">
           </div>
           <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 6px;">
-            Mais de <strong>60% das movimentações concentram-se no Ensino Médio Completo</strong>. O Ensino Superior Completo representa menos de 5% da força movimentada.
+<strong>56,8% das admissões são de Ensino Médio Completo</strong>; o Superior Completo responde por 3,7%. Escolaridade observada no trabalhador, não a exigida pela vaga.
           </p>
         </div>
 
@@ -737,9 +737,9 @@
             <img src="../database/resultados/eixo2_socioeconomico/salarios_admitidos_desligados.png" alt="Salários Admitidos vs Desligados" class="chart-img">
           </div>
           <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 8px; line-height: 1.45;">
-            • <strong>Admitidos:</strong> Salário Médio R$ 2.478,48 | Mediana R$ 2.209,85.<br>
-            • <strong>Desligados:</strong> Salário Médio R$ 2.641,15 | Mediana R$ 2.301,48.<br>
-            • <strong>Deságio de Substituição:</strong> A remuneração média de entrada é <strong>R$ 162,67 menor (-6,2%)</strong> que a média geral dos desligados.
+            • <strong>Medianas em SC:</strong> admitidos R$ 2.209,85 | pedidos de demissão (cód. 40) R$ 2.241,80 | demitidos pela empresa (cód. 31) R$ 2.556,00.<br>
+            • <strong>Entrada × saída:</strong> quem entra recebe <strong>13,5% menos</strong> que quem foi demitido pela empresa (mediana). Por escolaridade, a diferença vai de −8% (Analfabeto) a −21% (Superior Completo).<br>
+            • <strong>Leitura:</strong> compatível com compressão salarial ou com maior tempo de casa de quem sai; o CAGED não separa as duas explicações.
           </div>
         </div>
       </div>
@@ -766,12 +766,12 @@
             Em todo o estado de SC, os <strong>desligamentos a pedido do próprio trabalhador</strong> representam uma proporção gigantesca dos desligamentos.
           </p>
           <div class="card highlight-blue" style="margin: 12px 0;">
-            <div class="kpi-num" style="color: #38bdf8;">~48%</div>
+            <div class="kpi-num" style="color: #38bdf8;">47,7%</div>
             <div class="kpi-label">Taxa Média Estadual de Pedidos de Demissão</div>
             <div class="kpi-sub">Trabalhadores abandonam as fábricas voluntariamente buscando melhores salários e condições.</div>
           </div>
           <p style="font-size: 0.85rem; line-height: 1.5; color: #94a3b8;">
-            A análise do script comprova que em setores onde a remuneração relativa mediana é inferior a 100% da referência estadual, a taxa de pedidos de demissão explode, caracterizando a perda de retenção de operários.
+            O painel destaca 171 pares município × setor que combinam volume alto, pedidos acima da média estadual e salário de entrada abaixo da referência estadual da mesma escolaridade. A combinação sugere perda de retenção por baixa atratividade salarial; não prova causalidade.
           </p>
         </div>
       </div>
@@ -780,7 +780,7 @@
     <!-- SLIDE 7: EIXO 3 - MACROFAMÍLIAS DE CBOS VIA IA -->
     <section class="slide" data-slide="7">
       <span class="slide-badge">Eixo 3 — Inteligência Artificial</span>
-      <h2 class="slide-title">2.000 CBOs em 19 Macrofamílias: O Papel da IA</h2>
+      <h2 class="slide-title">1.578 CBOs em 19 Macrofamílias: O Papel da IA</h2>
       <p class="slide-subtitle">Classificação semântica automatizada para revelar em quais famílias funcionais está a demanda.</p>
 
       <div class="grid-2">
@@ -831,7 +831,7 @@
             </div>
           </div>
           <p style="font-size: 0.82rem; color: #38bdf8; margin-top: 8px;">
-            <strong>Resposta:</strong> A carência numérica e a pressão de rotatividade estão <strong>100% no chão de fábrica e na operação de base</strong>.
+            <strong>Resposta:</strong> a base operacional (grandes grupos CBO 7 a 9) concentra <strong>76,3% das movimentações e 77,5% dos pedidos de demissão</strong>. O saldo negativo de Gestão e Engenharia pode refletir promoções internas, que o CAGED não registra como admissão.
           </p>
         </div>
       </div>
@@ -841,7 +841,7 @@
     <section class="slide" data-slide="8">
       <span class="slide-badge">Diagnóstico Integrado do Relatório Oficial</span>
       <h2 class="slide-title">Combinações que Merecem Investigação (Apagão)</h2>
-      <p class="slide-subtitle">Cruzamento Município × Setor CNAE × Macrofamília CBO validado pelo script executar_analises.py.</p>
+      <p class="slide-subtitle">Um registro por Município × Setor CNAE (correção do Item 01), com a macrofamília predominante. Fonte: executar_analises.py.</p>
 
       <div class="card" style="margin-bottom: 14px;">
         <table class="data-table">
@@ -849,7 +849,7 @@
             <tr>
               <th>Município</th>
               <th>Setor Industrial</th>
-              <th>Macrofamília CBO</th>
+              <th>Macrofamília predominante</th>
               <th>Movimentações</th>
               <th>% Pedidos de Saída</th>
               <th>Remuneração Relativa</th>
@@ -859,60 +859,60 @@
             <tr>
               <td><strong>Concórdia</strong></td>
               <td>Fabricação de Alimentos</td>
-              <td>Alimentos e bebidas</td>
-              <td>4.220</td>
-              <td class="val-negative"><strong>74,9%</strong></td>
-              <td class="val-negative"><strong>89,1%</strong> da ref. estadual</td>
+              <td>Alimentos e bebidas (65%)</td>
+              <td>6.477</td>
+              <td class="val-negative"><strong>68,9%</strong></td>
+              <td class="val-negative"><strong>89,3%</strong> da ref. estadual</td>
             </tr>
             <tr>
               <td><strong>Videira</strong></td>
               <td>Fabricação de Alimentos</td>
-              <td>Alimentos e bebidas</td>
-              <td>2.872</td>
-              <td class="val-negative"><strong>71,6%</strong></td>
-              <td class="val-negative"><strong>92,5%</strong> da ref. estadual</td>
+              <td>Alimentos e bebidas (46%)</td>
+              <td>6.263</td>
+              <td class="val-negative"><strong>63,5%</strong></td>
+              <td class="val-negative"><strong>92,3%</strong> da ref. estadual</td>
             </tr>
             <tr>
-              <td><strong>Presidente Getúlio</strong></td>
-              <td>Confecção de Vestuário</td>
-              <td>Têxtil, vestuário e couro</td>
-              <td>2.802</td>
-              <td class="val-negative"><strong>70,6%</strong></td>
-              <td class="val-negative"><strong>85,1%</strong> da ref. estadual</td>
+              <td><strong>Navegantes</strong></td>
+              <td>Veículos, Reboques e Carrocerias</td>
+              <td>Produção e apoio industrial (92%)</td>
+              <td>5.054</td>
+              <td class="val-negative"><strong>58,5%</strong></td>
+              <td class="val-negative">90,8% da ref. estadual</td>
             </tr>
             <tr>
               <td><strong>Joinville</strong></td>
               <td>Máquinas e Materiais Elétricos</td>
-              <td>Elétrica, eletrônica e automação</td>
-              <td>6.946</td>
-              <td class="val-negative"><strong>60,0%</strong></td>
+              <td>Elétrica, eletrônica e automação (73%)</td>
+              <td>9.565</td>
+              <td class="val-negative"><strong>55,7%</strong></td>
               <td>96,9% da ref. estadual</td>
             </tr>
             <tr>
-              <td><strong>Navegantes</strong></td>
-              <td>Veículos e Reboques/Naval</td>
-              <td>Produção e apoio industrial</td>
-              <td>4.650</td>
-              <td class="val-negative"><strong>60,3%</strong></td>
-              <td class="val-negative">90,8% da ref. estadual</td>
+              <td><strong>Itajaí</strong></td>
+              <td>Fabricação de Alimentos</td>
+              <td>Alimentos e bebidas (33%)</td>
+              <td>5.521</td>
+              <td class="val-negative"><strong>53,8%</strong></td>
+              <td class="val-negative">86,4% da ref. estadual</td>
             </tr>
             <tr>
               <td><strong>Blumenau</strong></td>
               <td>Confecção de Vestuário</td>
-              <td>Têxtil, vestuário e couro</td>
-              <td>5.550</td>
-              <td class="val-negative"><strong>56,0%</strong></td>
-              <td class="val-negative">93,5% da ref. estadual</td>
+              <td>Têxtil, vestuário e couro (38%)</td>
+              <td>14.454</td>
+              <td class="val-negative"><strong>52,7%</strong></td>
+              <td class="val-negative">91,8% da ref. estadual</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="card highlight-amber">
-        <div class="card-title">Por que esses casos são hipóteses fortes de Apagão de Mão de Obra?</div>
+        <div class="card-title">Por que esses casos são hipóteses fortes de problema de retenção?</div>
         <p style="font-size: 0.88rem; line-height: 1.55; color: #cbd5e1;">
-          Em <strong>Concórdia (74,9%)</strong> e <strong>Videira (71,6%)</strong>, 3 em cada 4 saídas são por vontade do próprio trabalhador. 
-          Ao mesmo tempo, esses profissionais recebem salários medianos entre <strong>7,5% e 15% abaixo do padrão estadual</strong> para operários de mesma escolaridade. O trabalhador se recusa a permanecer nas linhas frigoríficas insalubres diante da baixa atratividade salarial regional.
+          Em <strong>Concórdia (68,9%)</strong> e <strong>Videira (63,5%)</strong>, cerca de 2 em cada 3 desligamentos são pedidos do próprio trabalhador, contra 47,7% em SC.
+          Ao mesmo tempo, quem é admitido recebe entre <strong>7,7% e 10,7% abaixo da mediana estadual</strong> da mesma escolaridade. A combinação é compatível com baixa atratividade salarial; condições de trabalho também podem pesar, mas o CAGED não as mede.
         </p>
       </div>
     </section>
@@ -937,17 +937,17 @@
           <div class="card-title" style="color: var(--accent-green);">EIXO 2: Socioeconômico</div>
           <div style="font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
             <p><strong>COMO EXPLICAM:</strong> O operário não é dispensado, ele pede demissão voluntariamente em busca de renda.</p>
-            <p style="margin-top: 6px;"><strong>COMPRESSÃO:</strong> A indústria admite novatos a R$ 2.478 enquanto desligados ganhavam R$ 2.641.</p>
-            <p style="margin-top: 6px;"><strong>ESCOLARIDADE:</strong> Concentrada em Ensino Médio.</p>
+            <p style="margin-top: 6px;"><strong>ENTRADA × SAÍDA:</strong> quem entra recebe 13,5% menos que quem é demitido pela empresa (mediana); a diferença cresce com a escolaridade. Compatível com compressão salarial ou tempo de casa.</p>
+            <p style="margin-top: 6px;"><strong>ESCOLARIDADE:</strong> 56,8% das admissões são de Ensino Médio Completo.</p>
           </div>
         </div>
 
         <div class="card highlight-amber">
           <div class="card-title" style="color: var(--accent-amber);">EIXO 3: Qualificação & IA</div>
           <div style="font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
-            <p><strong>QUEM:</strong> A escassez é 100% focada no chão de fábrica operacional (Produção e Alimentos).</p>
-            <p style="margin-top: 6px;"><strong>NÃO FALTAM ENGENHEIROS:</strong> Gestão (-3.709) e Engenharia (-763) tiveram saldo negativo em SC.</p>
-            <p style="margin-top: 6px;"><strong>IA:</strong> 19 macrofamílias mapeadas semanticamente.</p>
+            <p><strong>QUEM:</strong> a base operacional (CBO 7 a 9) concentra 76,3% das movimentações e 77,5% dos pedidos de demissão.</p>
+            <p style="margin-top: 6px;"><strong>GESTÃO E ENGENHARIA:</strong> saldos de −3.709 e −763, que podem refletir promoções internas não registradas no CAGED.</p>
+            <p style="margin-top: 6px;"><strong>IA:</strong> 19 macrofamílias por regras semânticas, validadas por uma classificação independente do Gemini; hipóteses e chat no painel.</p>
           </div>
         </div>
       </div>
@@ -955,7 +955,7 @@
       <div class="card" style="margin-top: 14px;">
         <div class="card-title">Resposta Sintética para a Banca Avaliadora</div>
         <p style="font-size: 0.95rem; line-height: 1.6; color: #e2e8f0;">
-          O apagão de mão de obra industrial em SC não é crise de demografia nem falta de ensino superior: <strong>é crise de retenção e desatratividade salarial na base operacional</strong> em um estado de pleno emprego. A indústria expande nos eixos portuário e agroindustrial, mas sangra operários por remunerações relativas defasadas.
+          Os dados sugerem que o principal gargalo da indústria catarinense é de <strong>retenção na base operacional</strong>, e não de falta de diploma: 47,7% dos desligamentos são pedidos do trabalhador e quem pede demissão ganha quase o mesmo que quem entra. A indústria cresce nos polos portuário e agroindustrial e encolhe no vestuário do Vale do Itajaí.
         </p>
       </div>
     </section>
@@ -984,10 +984,10 @@
         </div>
 
         <div class="card highlight-amber">
-          <div class="card-title"><span class="tag tag-amber">AÇÃO 3</span> Pacto Territorial</div>
-          <h3 style="font-size: 1rem; margin-bottom: 6px; color: #fff;">Habitação e Transporte</h3>
+          <div class="card-title"><span class="tag tag-amber">AÇÃO 3</span> Polos de Expansão</div>
+          <h3 style="font-size: 1rem; margin-bottom: 6px; color: #fff;">Atração de Talentos Regionais</h3>
           <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
-            Em municípios sob forte pressão populacional (Guatambú com 598 vagas/10k hab e Navegantes com 280), estruturar consórcios industriais de linhas de ônibus fretadas e creches de turno.
+            Nos polos com maior saldo (Navegantes +2.765, 281 por 10 mil hab.; Chapecó +1.110), parcerias FIESC, prefeituras e empresas para captar e qualificar trabalhadores de Produção e apoio industrial e de Alimentos e bebidas antes que a demanda pressione salários.
           </p>
         </div>
       </div>
@@ -1034,15 +1034,15 @@
     // SLIDE DATA & NOTES (PITCH 3 MINUTOS)
     const notesData = {
       1: "Boa tarde, banca avaliadora. Como consultoria de dados, analisamos os microdados oficiais do Novo CAGED para responder à Pergunta Central do Guia do Datathon: quais regiões e setores industriais enfrentam apagão ou expansão acelerada em SC, e como renda e escolaridade explicam esses gargalos.",
-      2: "Os dados brutos mostram 1,14 milhão de movimentações e um saldo aparentemente calmo de +2.645 vagas. Isso é o mito do saldo zero. Na realidade, quase 570 mil trabalhadores foram desligados no estado — um turnover de praticamente 100% da base fabril em 12 meses.",
-      3: "No Eixo 1 Territorial, o mapa gerado pelo nosso pipeline comprova uma assimetria brutal: Navegantes dispara na liderança com +2.765 vagas líquidas e 281 vagas por 10 mil habitantes. Joinville sustenta o maior volume (+1.527) e Guatambú atinge o pico de 598 vagas por 10k habitantes. No polo oposto, São José perde quase mil postos e o Vale Têxtil perde mais de 1.300 postos em Blumenau e Gaspar.",
+      2: "Os dados brutos mostram 1,14 milhão de movimentações e um saldo aparentemente calmo de +2.645 postos. Isso é o mito do saldo zero: por trás dele houve 571 mil admissões e 568 mil desligamentos em 12 meses, e quase metade dessas saídas foi pedido do próprio trabalhador.",
+      3: "No Eixo 1 Territorial, o mapa gerado pelo nosso pipeline mostra uma assimetria forte: Navegantes lidera com saldo de +2.765 e 281 por 10 mil habitantes. Joinville sustenta o maior volume (+1.527) e Guatambú chega a 598 por 10 mil habitantes, valor alto porque o município é pequeno. No polo oposto, São José perde quase mil postos e o Vale Têxtil perde mais de 1.300 postos em Blumenau e Gaspar.",
       4: "No Eixo 1 Setorial, a divisão de Alimentos e Bebidas lidera a expansão com +4.739 vagas, e Máquinas Elétricas soma +2.018. Por outro lado, a Confecção de Vestuário encolheu em -4.571 vagas, mostrando uma contração estrutural no setor têxtil tradicional.",
-      5: "No Eixo 2 Socioeconômico, vemos que mais de 60% da força movimentada possui Ensino Médio Completo. O Ensino Superior é residual na movimentação fabril. E o salário médio de contratação é de R$ 2.478, deságio de 6% frente à média dos desligados.",
-      6: "A média de pedidos de demissão pelo trabalhador gira em torno de 48% em todo o estado. Quando a remuneração relativa da vaga fica abaixo da referência estadual, a evasão do operário dispara para outros setores como comércio e serviços.",
-      7: "No Eixo 3, utilizamos IA para sintetizar mais de 2.000 CBOs em 19 macrofamílias. O resultado responde diretamente ao Guia: faltam engenheiros? Não! Engenharia e Gestão tiveram saldo negativo. O verdadeiro estrangulamento está na base operacional, com mais de 319 mil movimentações na produção industrial.",
-      8: "Nosso script executar_analises.py cruzou município, setor e ocupação para identificar as combinações críticas de retenção: em Concórdia e Videira, mais de 70% dos desligamentos de frigoríficos ocorrem a pedido do trabalhador, com salários até 15% abaixo da referência estadual. É o apagão por baixa atratividade salarial.",
-      9: "Integrando os três eixos: ONDE está a expansão? No litoral norte e no agro-oeste. ONDE está a retração? No vestuário do Vale. POR QUÊ? Porque o operário não tolera a estagnação salarial e pede para sair. QUEM é afetado? O chão de fábrica operacional.",
-      10: "Finalizamos com três propostas para a FIESC: plano de carreira com degraus de 6 a 24 meses; formação técnica on-the-job com unidades móveis do SENAI; e consórcios industriais de moradia e transporte nos polos sob pressão demográfica. Muito obrigado!"
+      5: "No Eixo 2, 56,8% das admissões são de Ensino Médio Completo. Quem pede demissão ganha mediana de R$ 2.242, praticamente o mesmo que quem entra, R$ 2.210. Já quem é demitido pela empresa ganhava R$ 2.556: quem entra recebe 13,5% menos, e essa diferença cresce com a escolaridade. Isso é compatível com compressão salarial ou com o tempo de casa de quem sai.",
+      6: "No estado, 47,7% dos desligamentos são pedidos do trabalhador. O painel marca 171 pares município e setor que juntam volume alto, pedidos acima dessa média e salário de entrada abaixo da referência estadual. É uma hipótese de baixa atratividade salarial, não uma prova de causa.",
+      7: "No Eixo 3, agrupamos 1.578 CBOs em 19 macrofamílias com regras elaboradas por IA e validamos com uma classificação independente do Gemini. A base operacional concentra 76% das movimentações e 77% dos pedidos de demissão. O saldo negativo de gestão e engenharia pode vir de promoções internas, que o CAGED não registra.",
+      8: "Cada par município e setor aparece uma vez, com a macrofamília predominante. Em Concórdia e Videira, cerca de dois terços dos desligamentos na indústria de alimentos são pedidos do trabalhador, e quem entra recebe de 8% a 11% abaixo da referência estadual. É o caso mais forte de problema de retenção.",
+      9: "Integrando os três eixos: a expansão está no litoral norte e no oeste agroindustrial; a retração, no vestuário do Vale do Itajaí. Os dados sugerem que o gargalo é de retenção na base operacional: quem fica não ganha mais do que quem entra, e quase metade das saídas é pedido do trabalhador.",
+      10: "Três propostas para a FIESC, cada uma ligada a uma macrofamília: degraus salariais aos 6, 12 e 24 meses na produção, alimentos e têxtil; trilhas SENAI de formação no trabalho nas ocupações com maior déficit; e atração de talentos regionais nos polos de expansão, como Navegantes e Chapecó. Muito obrigado!"
     };
 
     // NAVIGATION LOGIC
