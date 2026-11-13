@@ -9,6 +9,7 @@ __pycache__/
 # Documentos para análise dos dados
 database/doc/*
 !database/doc/*/
+/database/resultados/
 
 # Distribution / packaging
 .Python

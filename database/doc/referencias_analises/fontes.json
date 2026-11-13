@@ -1,0 +1,22 @@
+{
+  "municipios.json": {
+    "url": "https://servicodados.ibge.gov.br/api/v1/localidades/estados/42/municipios",
+    "obtido_em_utc": "2026-11-13T01:50:14.672505+00:00",
+    "bytes": 127644
+  },
+  "cnae_divisoes.json": {
+    "url": "https://servicodados.ibge.gov.br/api/v2/cnae/divisoes",
+    "obtido_em_utc": "2026-11-13T01:50:14.866055+00:00",
+    "bytes": 71836
+  },
+  "malha_sc.geojson": {
+    "url": "https://servicodados.ibge.gov.br/api/v4/malhas/estados/42?formato=application%2Fvnd.geo%2Bjson&intrarregiao=municipio&qualidade=minima",
+    "obtido_em_utc": "2026-11-13T01:50:15.065932+00:00",
+    "bytes": 146721
+  },
+  "cbo_ocupacoes.csv": {
+    "url": "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv",
+    "obtido_em_utc": "2026-11-13T01:50:15.422650+00:00",
+    "bytes": 108256
+  }
+}

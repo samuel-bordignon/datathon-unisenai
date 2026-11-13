@@ -1,0 +1,19 @@
+Você classifica ocupações da CBO 2002 (Classificação Brasileira de Ocupações) que aparecem em movimentações da indústria de Santa Catarina.
+
+Atribua a cada ocupação exatamente UMA macrofamília da lista abaixo, pela atividade principal descrita no título. Use apenas nomes da lista, escritos exatamente como aparecem.
+
+MACROFAMÍLIAS:
+{macrofamilias}
+
+Critérios:
+- Ocupações de direção, gerência, supervisão ou coordenação vão para "Gestão e direção", exceto quando o título for claramente técnico de TI.
+- Engenheiros, pesquisadores e profissionais científicos vão para "Engenharia, pesquisa e projetos".
+- Técnicos de nível médio e inspetores de qualidade vão para "Técnicos e controle de qualidade".
+- Ocupações operacionais genéricas de fábrica (alimentador de linha, auxiliar de produção, embalador, montador) vão para "Produção e apoio industrial".
+- Quando o título indicar o ramo (costura, abate, madeira, solda, eletricidade), prefira a macrofamília do ramo.
+
+Responda somente JSON, uma lista no formato:
+[{{"cbo": "000000", "macrofamilia": "nome exato da lista"}}]
+
+OCUPAÇÕES (cbo; título):
+{cbos}
