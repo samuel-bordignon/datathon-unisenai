@@ -27,6 +27,15 @@ class CenariosTest(unittest.TestCase):
         df.loc[df.nome_municipio.eq('A'), 'salario_relativo_referencia'] = 1.2
         self.assertFalse(sinais(df, df).sinal_retencao.any())
 
+    def test_setor_unico_por_municipio_item01(self):
+        df = dados()
+        df.loc[df.index % 3 == 0, 'macrofamilia'] = 'Produção e apoio industrial'
+        out = sinais(df, df)
+        self.assertFalse(out.duplicated(['codigo_ibge_7d', 'cnae_divisao']).any())
+        a = out.set_index('nome_municipio').loc['A']
+        self.assertEqual(a.macrofamilia_predominante, 'Operação')
+        self.assertAlmostEqual(a.pct_macrofamilia_predominante, 100 * 53 / 80)
+
     def test_amostra_insuficiente_e_base_estadual(self):
         df = dados()
         selecionado = df[df.nome_municipio.eq('A')].head(35)

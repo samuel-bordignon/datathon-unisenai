@@ -21,7 +21,7 @@
 
 **Correção adotada.** A macrofamília saiu da chave do diagnóstico (`cenarios.DIMENSOES` e `executar_analises.diagnostico`). Cada linha passa a informar a `macrofamilia_predominante` (a de mais movimentações no par) e o seu percentual. A classificação das ocupações não foi alterada; reclassificar pela CNAE tornaria o Eixo 3 circular, porque a macrofamília passaria a repetir o setor.
 
-**Efeito.** Os polos são recalculados. Blumenau / Vestuário passa a somar cerca de 8.942 movimentações numa única linha. Os números do pitch saem do relatório regenerado.
+**Efeito.** Os polos são recalculados sobre todas as ocupações do par. Blumenau / Vestuário passa a uma única linha com 14.454 movimentações e 52,7% de pedidos; a macrofamília predominante (Têxtil, vestuário e couro) responde por 38% delas. Concórdia / Alimentos passa de 74,9% para 68,9% de pedidos. Os números do pitch saem do relatório regenerado.
 
 ---
 

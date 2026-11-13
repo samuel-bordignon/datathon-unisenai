@@ -122,11 +122,11 @@ elif pagina == 'Sinais de apagão':
     if alertas.empty:
         st.info('Nenhuma combinação atende simultaneamente aos critérios neste recorte.')
     else:
-        mostrar_tabela(alertas, ['nome_municipio', 'setor', 'macrofamilia', 'movimentacoes', 'admissoes', 'desligamentos', 'saldo', 'pedidos', 'pct_pedidos', 'pct_pedidos_sc', 'n_referencia', 'remuneracao_relativa_pct', 'limiar_movimentacoes'])
-        opcoes = {f"{r.nome_municipio} | {r.setor} | {r.macrofamilia}": (r.codigo_ibge_7d, r.cnae_divisao, r.macrofamilia) for r in alertas.itertuples()}
+        mostrar_tabela(alertas, ['nome_municipio', 'setor', 'macrofamilia_predominante', 'pct_macrofamilia_predominante', 'movimentacoes', 'admissoes', 'desligamentos', 'saldo', 'pedidos', 'pct_pedidos', 'pct_pedidos_sc', 'n_referencia', 'remuneracao_relativa_pct', 'limiar_movimentacoes'])
+        opcoes = {f"{r.nome_municipio} | {r.setor}": (r.codigo_ibge_7d, r.cnae_divisao) for r in alertas.itertuples()}
         escolha = st.selectbox('Investigar combinação', list(opcoes))
-        cod, setor, familia = opcoes[escolha]
-        detalhe = recorte[(recorte.codigo_ibge_7d == cod) & (recorte.cnae_divisao == setor) & (recorte.macrofamilia == familia)]
+        cod, setor = opcoes[escolha]
+        detalhe = recorte[(recorte.codigo_ibge_7d == cod) & (recorte.cnae_divisao == setor)]
         perfil(detalhe)
         barras(agregar(detalhe, ['cbo', 'descricao_cbo']).sort_values('movimentacoes', ascending=False), 'movimentacoes', 'descricao_cbo', 'CBOs com mais movimentações')
 
@@ -208,7 +208,7 @@ else:
         st.write('Nenhum grupo atendeu à combinação de sinais de retenção adotada. Isso não elimina outras hipóteses de dificuldade.')
     else:
         for r in alertas.head(3).itertuples():
-            st.markdown(f"**{r.nome_municipio} · {r.setor} · {r.macrofamilia}** — {numero(r.movimentacoes)} movimentações; {numero(r.pedidos)} pedidos em {numero(r.desligamentos)} desligamentos ({numero(r.pct_pedidos, 1)}%, contra {numero(r.pct_pedidos_sc, 1)}% em SC); remuneração relativa de {numero(r.remuneracao_relativa_pct, 1)}% (n={numero(r.n_referencia)}).")
-            st.write(f"Ação proposta: investigar com empresas locais os motivos de saída e comparar faixas de remuneração das ocupações de **{r.macrofamilia}**; revisar o catálogo ocupacional e avaliar formação direcionada somente após validar necessidades de qualificação.")
+            st.markdown(f"**{r.nome_municipio} · {r.setor} · {r.macrofamilia_predominante}** — {numero(r.movimentacoes)} movimentações; {numero(r.pedidos)} pedidos em {numero(r.desligamentos)} desligamentos ({numero(r.pct_pedidos, 1)}%, contra {numero(r.pct_pedidos_sc, 1)}% em SC); remuneração relativa de {numero(r.remuneracao_relativa_pct, 1)}% (n={numero(r.n_referencia)}).")
+            st.write(f"Ação proposta: investigar com empresas locais os motivos de saída e comparar faixas de remuneração das ocupações de **{r.macrofamilia_predominante}**; revisar o catálogo ocupacional e avaliar formação direcionada somente após validar necessidades de qualificação.")
     st.warning('São hipóteses, não causas comprovadas. O CAGED mede movimentações, não vagas abertas, estoque de empregos, requisitos da vaga nem trajetórias individuais. Salários são nominais; escolaridade é a observada nos trabalhadores.')
     st.caption('Roteiro sugerido: contexto e escala (30 s); expansão territorial e setorial (45 s); sinais combinados e limites (60 s); ações direcionadas e próximos passos (45 s).')

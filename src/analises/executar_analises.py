@@ -3,13 +3,15 @@ from datetime import datetime,timezone
 import json
 import pandas as pd
 from comum import argumentos,dados_comuns,agregar,exportar,DICIONARIO,REFERENCIAS,CATALOGO
+from cenarios import macrofamilia_predominante
 import eixo1_territorial
 import eixo2_socioeconomico
 import eixo3_qualificacao
 
 def diagnostico(df,saida):
-    dimensoes=['codigo_ibge_7d','nome_municipio','codigo_regiao_imediata','regiao_imediata','cnae_divisao','setor','macrofamilia']
-    total=agregar(df,dimensoes)
+    # Item 01: macrofamília fora da chave; informada como predominante no par município × setor.
+    dimensoes=['codigo_ibge_7d','nome_municipio','codigo_regiao_imediata','regiao_imediata','cnae_divisao','setor']
+    total=agregar(df,dimensoes).merge(macrofamilia_predominante(df,dimensoes),on=dimensoes,how='left',validate='one_to_one')
     eleg=total[total['movimentacoes'].ge(30)]
     limiar=eleg['movimentacoes'].quantile(.75)
     pct_estado=100*df['desligamentos_a_pedido'].sum()/df['desligamentos'].sum() if df['desligamentos'].sum() else float('nan')
@@ -50,7 +52,7 @@ def documentar(df,auditoria,territorial,integrado,saida):
     mun=territorial['municipios']; setores=territorial['setores_divisao']; alertas=integrado[integrado['hipotese_investigar_retencao']].sort_values('movimentacoes',ascending=False)
     def lista(tabela, coluna, nome):
         return '\n'.join(f"- {row[nome]}: saldo {int(row['saldo']):+d}; {int(row['admissoes']):,} admissões ({row['pct_admissoes_total_sc']:.2f}% de SC) e {int(row['desligamentos']):,} desligamentos ({row['pct_desligamentos_total_sc']:.2f}% de SC)." for _,row in tabela.sort_values(coluna,ascending=False).head(5).iterrows())
-    resumo_alertas='\n'.join(f"- {r['nome_municipio']} / {r['setor']} / {r['macrofamilia']}: {int(r['movimentacoes'])} movimentações ({r['pct_movimentacoes_total_sc']:.3f}% de SC); {int(r['desligamentos_a_pedido'])} pedidos em {int(r['desligamentos'])} desligamentos ({r['pct_desligamentos_a_pedido_desligamentos_grupo']:.1f}%); remuneração mediana relativa de {r['remuneracao_relativa_pct_referencia']:.1f}% da referência estadual." for _,r in alertas.head(10).iterrows()) or 'Nenhuma combinação atingiu simultaneamente os critérios adotados.'
+    resumo_alertas='\n'.join(f"- {r['nome_municipio']} / {r['setor']} (macrofamília predominante: {r['macrofamilia_predominante']}, {r['pct_macrofamilia_predominante']:.0f}%): {int(r['movimentacoes'])} movimentações ({r['pct_movimentacoes_total_sc']:.3f}% de SC); {int(r['desligamentos_a_pedido'])} pedidos em {int(r['desligamentos'])} desligamentos ({r['pct_desligamentos_a_pedido_desligamentos_grupo']:.1f}%); remuneração mediana relativa de {r['remuneracao_relativa_pct_referencia']:.1f}% da referência estadual." for _,r in alertas.head(10).iterrows()) or 'Nenhuma combinação atingiu simultaneamente os critérios adotados.'
     n=len(df); a=int(df['admissoes'].sum()); d=int(df['desligamentos'].sum())
     relatorio=f'''# Diagnóstico do emprego industrial catarinense
 

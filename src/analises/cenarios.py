@@ -2,8 +2,19 @@
 import numpy as np
 import pandas as pd
 
+# Item 01: a macrofamília não entra na chave; cada município × setor aparece uma vez.
 DIMENSOES = ['codigo_ibge_7d', 'nome_municipio', 'codigo_regiao_imediata',
-             'regiao_imediata', 'cnae_divisao', 'setor', 'macrofamilia']
+             'regiao_imediata', 'cnae_divisao', 'setor']
+
+
+def macrofamilia_predominante(df, dimensoes):
+    """Macrofamília com mais movimentações em cada grupo e sua participação no grupo."""
+    contagem = df.groupby(dimensoes + ['macrofamilia'], dropna=False, observed=True).size().rename('n').reset_index()
+    contagem['total'] = contagem.groupby(dimensoes, dropna=False, observed=True).n.transform('sum')
+    topo = contagem.sort_values(['n', 'macrofamilia'], ascending=[False, True]).drop_duplicates(dimensoes)
+    topo['pct_macrofamilia_predominante'] = 100 * topo.n / topo.total
+    return topo.rename(columns={'macrofamilia': 'macrofamilia_predominante'})[
+        dimensoes + ['macrofamilia_predominante', 'pct_macrofamilia_predominante']]
 
 
 def dividir(numerador, denominador):
@@ -45,6 +56,8 @@ def sinais(estado, recorte):
     grupos['sinal_retencao'] = (grupos.movimentacoes.ge(30) & grupos.movimentacoes.ge(limiar)
         & grupos.pct_pedidos.gt(pedidos_sc) & grupos.n_referencia.ge(30)
         & grupos.remuneracao_relativa.lt(1))
+    if 'macrofamilia' in recorte.columns and not grupos.empty:
+        grupos = grupos.merge(macrofamilia_predominante(recorte, DIMENSOES), on=DIMENSOES, how='left', validate='one_to_one')
     return grupos
 
 
