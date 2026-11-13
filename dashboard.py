@@ -18,7 +18,7 @@ RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ / 'src' / 'analises'))
 sys.path.insert(0, str(RAIZ / 'src'))
 from ia import gemini
-from ia.contexto import PROMPT_HIPOTESES, SISTEMA, montar_contexto, serializar
+from ia.contexto import PROMPT_HIPOTESES, SISTEMA, detalhar_pergunta, montar_contexto, serializar
 from cenarios import (agregar, cbos_deficit, desagio_escolaridade, divergente, evolucao,
                       municipios, sinais)
 from comum import FAIXAS_ETARIAS, MOTIVOS, ORDEM_NIVEIS, ROTULOS_ESCOLARIDADE, SEM_IDADE
@@ -162,13 +162,15 @@ def secao_ia(estado, recorte, escopo):
         pergunta = st.chat_input('Ex.: Por que Concórdia aparece como polo de retenção?')
         if pergunta:
             historico = st.session_state['chat'][-6:]
+            extra = detalhar_pergunta(estado, recorte, pergunta, historico)
+            ctx_chat = contexto if not extra else f'{contexto}\nDETALHES_DA_PERGUNTA:\n{serializar(extra)}'
             with st.chat_message('user'):
                 st.markdown(pergunta)
             with st.chat_message('assistant'):
                 try:
                     with st.spinner('Consultando o Gemini...'):
                         texto = gemini.gerar(pergunta, chave, modelo, historico=historico,
-                                             sistema=SISTEMA + '\nCONTEXTO:\n' + contexto)
+                                             sistema=SISTEMA + '\nCONTEXTO:\n' + ctx_chat)
                 except gemini.ErroIA as erro:
                     st.error(str(erro))
                     return

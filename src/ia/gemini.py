@@ -12,6 +12,8 @@ import requests
 
 URL = 'https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent'
 MODELO_PADRAO = 'gemini-3.5-flash-lite'
+MODELOS_FALLBACK = (MODELO_PADRAO, 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite')
+STATUS_TRANSITORIOS = {404, 408, 429, 500, 502, 503, 504}
 
 
 class ErroIA(RuntimeError):
@@ -38,8 +40,8 @@ def _sanitizar(texto, chave):
     return texto.replace(chave, '***') if chave else texto
 
 
-def gerar(prompt, chave, modelo=MODELO_PADRAO, sistema=None, historico=None, json_saida=False, timeout=90, sessao=None):
-    """Envia o prompt e devolve o texto da resposta.
+def gerar(prompt, chave, modelo=MODELO_PADRAO, sistema=None, historico=None, json_saida=False, timeout=45, sessao=None):
+    """Envia o prompt e devolve o texto da resposta, com fallback automático em caso de sobrecarga (503/429).
 
     historico: lista de dicts {'papel': 'user'|'model', 'texto': str} anteriores ao prompt.
     """
@@ -53,24 +55,32 @@ def gerar(prompt, chave, modelo=MODELO_PADRAO, sistema=None, historico=None, jso
     if json_saida:
         corpo['generationConfig'] = {'responseMimeType': 'application/json'}
     cliente = sessao or requests
-    try:
-        resposta = cliente.post(URL.format(modelo=modelo), json=corpo, timeout=timeout,
-                                headers={'x-goog-api-key': chave, 'Content-Type': 'application/json'})
-    except requests.RequestException as erro:
-        raise ErroIA(_sanitizar(f'Falha de conexão com o Gemini: {type(erro).__name__}', chave)) from None
-    if resposta.status_code != 200:
+    candidatos_modelo = [modelo] + [m for m in MODELOS_FALLBACK if m != modelo]
+    ultimo_erro = None
+    for atual in candidatos_modelo:
         try:
-            detalhe = resposta.json().get('error', {}).get('message', '')
-        except ValueError:
-            detalhe = ''
-        raise ErroIA(_sanitizar(f'Gemini respondeu {resposta.status_code}: {detalhe[:300]}', chave))
-    dados = resposta.json()
-    candidatos = dados.get('candidates') or []
-    if not candidatos:
-        motivo = dados.get('promptFeedback', {}).get('blockReason', 'sem candidatos')
-        raise ErroIA(f'Gemini não retornou resposta ({motivo}).')
-    partes = candidatos[0].get('content', {}).get('parts', [])
-    texto = ''.join(p.get('text', '') for p in partes if not p.get('thought'))
-    if not texto.strip():
-        raise ErroIA('Gemini retornou resposta vazia.')
-    return texto
+            resposta = cliente.post(URL.format(modelo=atual), json=corpo, timeout=timeout,
+                                    headers={'x-goog-api-key': chave, 'Content-Type': 'application/json'})
+        except requests.RequestException as erro:
+            ultimo_erro = ErroIA(_sanitizar(f'Falha de conexão com o Gemini: {type(erro).__name__}', chave))
+            continue
+        if resposta.status_code != 200:
+            try:
+                detalhe = resposta.json().get('error', {}).get('message', '')
+            except ValueError:
+                detalhe = ''
+            ultimo_erro = ErroIA(_sanitizar(f'Gemini respondeu {resposta.status_code}: {detalhe[:300]}', chave))
+            if resposta.status_code in STATUS_TRANSITORIOS:
+                continue
+            raise ultimo_erro
+        dados = resposta.json()
+        candidatos = dados.get('candidates') or []
+        if not candidatos:
+            motivo = dados.get('promptFeedback', {}).get('blockReason', 'sem candidatos')
+            raise ErroIA(f'Gemini não retornou resposta ({motivo}).')
+        partes = candidatos[0].get('content', {}).get('parts', [])
+        texto = ''.join(p.get('text', '') for p in partes if not p.get('thought'))
+        if not texto.strip():
+            raise ErroIA('Gemini retornou resposta vazia.')
+        return texto
+    raise ultimo_erro

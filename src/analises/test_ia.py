@@ -8,7 +8,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ia import gemini  # noqa: E402
-from ia.contexto import montar_contexto, serializar  # noqa: E402
+from ia.contexto import detalhar_pergunta, montar_contexto, serializar  # noqa: E402
 from test_cenarios import dados  # noqa: E402
 
 CHAVE = 'chave-secreta-123'
@@ -49,6 +49,13 @@ class GeminiTest(unittest.TestCase):
         with self.assertRaises(gemini.ErroIA):
             gemini.gerar('oi', None)
 
+    def test_fallback_em_503(self):
+        erro_503 = {'error': {'message': 'This model is currently experiencing high demand.'}}
+        ok = {'candidates': [{'content': {'parts': [{'text': 'resposta via fallback'}]}}]}
+        with mock.patch.object(gemini.requests, 'post', side_effect=[Resposta(503, erro_503), Resposta(200, ok)]) as post:
+            self.assertEqual(gemini.gerar('oi', CHAVE, modelo='gemini-flash-latest'), 'resposta via fallback')
+        self.assertEqual(post.call_count, 2)
+
 
 class ContextoTest(unittest.TestCase):
     def test_contexto_agregado_e_compacto(self):
@@ -64,6 +71,10 @@ class ContextoTest(unittest.TestCase):
         self.assertEqual(contexto['kpis']['admissoes'], int(df.admissoes.sum()))
         for coluna in ['salario_valido', 'salario_relativo_referencia', 'idade']:
             self.assertNotIn(f'"{coluna}"', texto)
+        df.loc[df.nome_municipio.eq('A'), 'nome_municipio'] = 'Florianópolis'
+        extra = detalhar_pergunta(df, df, 'Como está Florianópolis e a ocupação de alimentador?')
+        self.assertEqual(extra['municipios_citados'][0]['nome_municipio'], 'Florianópolis')
+        self.assertTrue(extra.get('cbos_citadas'))
 
 
 if __name__ == '__main__':
