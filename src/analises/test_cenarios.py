@@ -1,7 +1,19 @@
 import unittest
 import numpy as np
 import pandas as pd
-from cenarios import agregar, dividir, distribuicao, evolucao, municipios, sinais
+from cenarios import (agregar, dividir, distribuicao, evolucao, municipios, sinais, desagio_escolaridade,
+                      divergente, cbos_deficit, motivos)
+
+
+def salarios():
+    linhas = []
+    for esc, adm, ped, emp, n in [('Médio Completo', 2000, 2100, 2500, 40), ('Doutorado', 5000, 5200, 8000, 5)]:
+        for grupo, valor in [('adm', adm), ('ped', ped), ('emp', emp)]:
+            for _ in range(n):
+                linhas.append(dict(escolaridade=esc, salario_valido=float(valor), admissoes=int(grupo == 'adm'),
+                                   desligamentos=int(grupo != 'adm'), desligamentos_a_pedido=int(grupo == 'ped'),
+                                   demissoes_empresa=int(grupo == 'emp')))
+    return pd.DataFrame(linhas)
 
 
 def dados():
@@ -49,6 +61,33 @@ class CenariosTest(unittest.TestCase):
         self.assertEqual(out.salario_mediano, df.salario_valido.median())
         self.assertEqual(distribuicao(df, 'escolaridade').quantidade.sum(), len(df))
         self.assertTrue(distribuicao(df, 'escolaridade').percentual.eq(100).all())
+
+    def test_desagio_e_amostra_minima(self):
+        _, largo = desagio_escolaridade(salarios())
+        medio = largo.set_index('escolaridade').loc['Médio Completo']
+        self.assertAlmostEqual(medio['desagio_mediana_Demissão pela empresa (31)'], -20.0)
+        self.assertAlmostEqual(medio['desagio_mediana_Pedido de demissão (40)'], 100 * (2000 - 2100) / 2100)
+        self.assertTrue(medio['suficiente_Demissão pela empresa (31)'])
+        self.assertFalse(largo.set_index('escolaridade').loc['Doutorado', 'suficiente_Demissão pela empresa (31)'])
+
+    def test_divergente_sem_repeticao(self):
+        tabela = pd.DataFrame({'nome': list('abcd'), 'saldo': [10, 3, -2, -8]})
+        out = divergente(tabela, 'saldo', n=5)
+        self.assertEqual(out.nome.tolist(), ['d', 'c', 'b', 'a'])
+        self.assertEqual(out.sentido.tolist(), ['Menores saldos'] * 2 + ['Maiores saldos'] * 2)
+
+    def test_motivos_e_deficit(self):
+        df = pd.DataFrame({'cbo': ['1', '1', '1', '2'], 'descricao_cbo': ['A', 'A', 'A', 'B'],
+            'nivel_atuacao': ['Base'] * 4, 'admissoes': [1, 0, 0, 1], 'desligamentos': [0, 1, 1, 0],
+            'desligamentos_a_pedido': [0, 1, 1, 0], 'demissoes_empresa': [0, 0, 0, 0],
+            'terminos_contrato': [0, 0, 0, 0], 'outros_desligamentos': [0, 0, 0, 0],
+            'salario_valido': [1.0] * 4, 'salario_relativo_referencia': [np.nan] * 4,
+            'motivo_movimentacao': ['Admissão', 'Pedido de demissão (40)', 'Pedido de demissão (40)', 'Admissão']})
+        out = cbos_deficit(df)
+        self.assertEqual(out.cbo.tolist(), ['1'])
+        self.assertEqual(out.iloc[0].motivo_dominante, 'Pedido de demissão (40)')
+        m = motivos(df, 'cbo').set_index(['cbo', 'motivo_movimentacao'])
+        self.assertEqual(m.loc[('1', 'Pedido de demissão (40)'), 'pct_fluxo'], 100)
 
     def test_denominadores_e_evolucao(self):
         df = dados()

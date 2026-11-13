@@ -9,8 +9,10 @@ COLUNAS = ['competencia', 'codigo_ibge_7d', 'nome_municipio',
            'populacao_estimada_2026', 'codigo_regiao_imediata', 'regiao_imediata',
            'cnae_divisao', 'setor', 'cbo', 'descricao_cbo', 'macrofamilia',
            'funcao_profissional', 'codigo_escolaridade', 'escolaridade', 'tipo_mov',
-           'admissoes', 'desligamentos', 'desligamentos_a_pedido', 'salario_valido',
-           'salario_relativo_referencia', 'faixa_salarial']
+           'admissoes', 'desligamentos', 'desligamentos_a_pedido', 'demissoes_empresa',
+           'terminos_contrato', 'outros_desligamentos', 'motivo_movimentacao', 'idade',
+           'faixa_etaria', 'nivel_atuacao', 'salario_valido', 'salario_relativo_referencia',
+           'faixa_salarial']
 
 
 def main():
