@@ -11,9 +11,56 @@ SAIDA = RAIZ / 'database/resultados'
 REFERENCIAS = RAIZ / 'database/doc/referencias_analises'
 DICIONARIO = RAIZ / 'database/doc/Dicionario_de_dados.xlsx'
 CATALOGO = Path(__file__).with_name('catalogo_cbos_ia.csv')
-COLUNAS = ['competênciamov','município','seção','subclasse','saldomovimentação','cbo2002ocupação','graudeinstrução','salário','indtrabintermitente','tipomovimentação','nome_municipio','codigo_ibge_7d','populacao_estimada_2026','indicadordeforadoprazo']
+COLUNAS = ['competênciamov','município','seção','subclasse','saldomovimentação','cbo2002ocupação','graudeinstrução','idade','salário','indtrabintermitente','tipomovimentação','nome_municipio','codigo_ibge_7d','populacao_estimada_2026','indicadordeforadoprazo']
 CODIGOS = {'município':'string','subclasse':'string','cbo2002ocupação':'string','codigo_ibge_7d':'string'}
 MINIMOS = {2024:1412.0, 2025:1518.0, 2026:1621.0}
+
+# Progressão acadêmica pelos códigos do CAGED: 80 (Pós-Graduação) vem antes de 10 (Mestrado).
+ORDEM_ESCOLARIDADE = ['1','2','3','4','5','6','7','8','9','80','10','11','99']
+ROTULOS_ESCOLARIDADE = ['Analfabeto','Até 5ª Incompleto','5ª Completo Fundamental','6ª a 9ª Fundamental',
+    'Fundamental Completo','Médio Incompleto','Médio Completo','Superior Incompleto','Superior Completo',
+    'Pós-Graduação completa','Mestrado','Doutorado','Não Identificado']
+FAIXAS_ETARIAS = ['Até 17 anos','18 a 24 anos','25 a 34 anos','35 a 44 anos','45 a 54 anos','55 anos ou mais']
+SEM_IDADE = 'Não informada'
+MOTIVOS = ['Admissão','Pedido de demissão (40)','Demissão pela empresa (31)','Fim de contrato (43/45)','Outros desligamentos']
+# Nível de atuação pelo grande grupo da CBO 2002 (primeiro dígito), classificação oficial do MTE.
+NIVEIS_ATUACAO = {'1':'Gestão, engenharia e técnicos','2':'Gestão, engenharia e técnicos','3':'Gestão, engenharia e técnicos',
+    '4':'Apoio administrativo e serviços','5':'Apoio administrativo e serviços','6':'Apoio administrativo e serviços',
+    '7':'Operacional de base','8':'Operacional de base','9':'Operacional de base'}
+ORDEM_NIVEIS = ['Operacional de base','Apoio administrativo e serviços','Gestão, engenharia e técnicos','Não classificado']
+
+
+def ordenar_escolaridade(serie):
+    """Categoria ordenada pela progressão acadêmica; rótulos desconhecidos vão ao fim."""
+    extras = sorted(set(serie.dropna().astype(str)) - set(ROTULOS_ESCOLARIDADE))
+    return pd.Categorical(serie.astype('object'), categories=ROTULOS_ESCOLARIDADE + extras, ordered=True)
+
+
+def faixa_etaria(idade):
+    """Faixas de idade fechadas à direita; idade ausente vira 'Não informada'."""
+    faixa = pd.cut(pd.to_numeric(idade, errors='coerce'), [-float('inf'),17,24,34,44,54,float('inf')], labels=FAIXAS_ETARIAS)
+    return pd.Categorical(faixa.astype('object').where(faixa.notna(), SEM_IDADE),
+                          categories=FAIXAS_ETARIAS + [SEM_IDADE], ordered=True)
+
+
+def classificar_motivos(saldo_mov, tipo_movimentacao):
+    """Indicadores mutuamente exclusivos de motivo; os quatro somam os desligamentos."""
+    deslig = saldo_mov.eq(-1)
+    tipo = pd.to_numeric(tipo_movimentacao, errors='coerce')
+    pedido = deslig & tipo.eq(40)
+    empresa = deslig & tipo.eq(31)
+    termino = deslig & tipo.isin([43, 45])
+    outros = deslig & ~(pedido | empresa | termino)
+    motivo = pd.Series(MOTIVOS[0], index=saldo_mov.index, dtype='object')
+    for mascara, nome in zip([pedido, empresa, termino, outros], MOTIVOS[1:]):
+        motivo = motivo.mask(mascara, nome)
+    return pd.DataFrame({'desligamentos_a_pedido': pedido.astype('int8'), 'demissoes_empresa': empresa.astype('int8'),
+        'terminos_contrato': termino.astype('int8'), 'outros_desligamentos': outros.astype('int8'),
+        'motivo_movimentacao': pd.Categorical(motivo, categories=MOTIVOS, ordered=True)}, index=saldo_mov.index)
+
+
+def nivel_atuacao(cbo):
+    return cbo.astype('string').str[0].map(NIVEIS_ATUACAO).fillna('Não classificado').astype('object')
 
 def argumentos():
     parser = argparse.ArgumentParser()
@@ -70,7 +117,9 @@ def carregar(args):
     df['cnae_divisao'] = df['cnae_subclasse'].str[:2]
     df['admissoes'] = df['saldo_mov'].eq(1).astype('int8')
     df['desligamentos'] = df['saldo_mov'].eq(-1).astype('int8')
-    df['desligamentos_a_pedido'] = (df['desligamentos'].eq(1) & df['tipo_movimentacao'].eq(40)).astype('int8')
+    df = df.join(classificar_motivos(df['saldo_mov'], df['tipo_movimentacao']))
+    df['faixa_etaria'] = faixa_etaria(df['idade'])
+    df['nivel_atuacao'] = nivel_atuacao(df['cbo'])
     df['tipo_mov'] = df['saldo_mov'].map({1:'Admissão',-1:'Desligamento'})
     ano = df['competencia'].floordiv(100)
     minimo = ano.map(MINIMOS)
@@ -89,7 +138,7 @@ def carregar(args):
     educ = dicionario('graudeinstrução').rename(columns={'codigo':'codigo_escolaridade','descricao':'escolaridade'})
     df['codigo_escolaridade'] = df['codigo_escolaridade'].astype('string').str.replace(r'\.0$', '',regex=True)
     df = df.merge(educ,on='codigo_escolaridade',how='left',validate='many_to_one')
-    df['escolaridade'] = df['escolaridade'].fillna('Não identificado')
+    df['escolaridade'] = ordenar_escolaridade(df['escolaridade'].fillna('Não Identificado'))
     df['superior_completo'] = df['codigo_escolaridade'].isin(['9','10','11','80']).astype('int8')
     mun = pd.json_normalize(json.loads((REFERENCIAS/'municipios.json').read_text(encoding='utf-8')))
     mun = mun[['id','regiao-imediata.id','regiao-imediata.nome']].rename(columns={'id':'codigo_ibge_7d','regiao-imediata.id':'codigo_regiao_imediata','regiao-imediata.nome':'regiao_imediata'})
@@ -120,7 +169,8 @@ def agregar(df, chaves):
     out = g.agg(admissoes=('admissoes','sum'), desligamentos=('desligamentos','sum'),
         desligamentos_a_pedido=('desligamentos_a_pedido','sum'), salarios_validos=('salario_valido','count'),
         salario_medio=('salario_valido','mean'), salario_mediano=('salario_valido','median'),
-        remuneracao_relativa_mediana=('salario_relativo_referencia','median'), n_admitidos_com_referencia=('salario_relativo_referencia','count')).reset_index()
+        remuneracao_relativa_mediana=('salario_relativo_referencia','median'), n_admitidos_com_referencia=('salario_relativo_referencia','count'),
+        **{c:(c,'sum') for c in ['demissoes_empresa','terminos_contrato','outros_desligamentos'] if c in df.columns}).reset_index()
     out['movimentacoes'] = out['admissoes']+out['desligamentos']; out['saldo'] = out['admissoes']-out['desligamentos']
     if 'competencia' in chaves:
         totais = df.groupby('competencia',dropna=False,observed=True).agg(denominador_admissoes_sc=('admissoes','sum'),denominador_desligamentos_sc=('desligamentos','sum'),denominador_movimentacoes_sc=('saldo_mov','size')).reset_index()

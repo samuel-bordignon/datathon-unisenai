@@ -1,7 +1,36 @@
 import unittest
 import pandas as pd
-from comum import agregar, distribuicao, elegibilidade_salarial
+from comum import (agregar, distribuicao, elegibilidade_salarial, classificar_motivos, faixa_etaria,
+                   nivel_atuacao, ordenar_escolaridade, ROTULOS_ESCOLARIDADE)
 from eixo2_socioeconomico import diferencas
+
+
+class EnriquecimentoTest(unittest.TestCase):
+    def test_motivos_somam_desligamentos(self):
+        saldo = pd.Series([1, -1, -1, -1, -1, -1, -1])
+        tipo = pd.Series([97, 40, 31, 43, 45, 90, 32])
+        out = classificar_motivos(saldo, tipo)
+        soma = out[['desligamentos_a_pedido', 'demissoes_empresa', 'terminos_contrato', 'outros_desligamentos']].sum(axis=1)
+        self.assertEqual(soma.tolist(), saldo.eq(-1).astype(int).tolist())
+        self.assertEqual(out.motivo_movimentacao.astype(str).tolist(), ['Admissão', 'Pedido de demissão (40)',
+            'Demissão pela empresa (31)', 'Fim de contrato (43/45)', 'Fim de contrato (43/45)',
+            'Outros desligamentos', 'Outros desligamentos'])
+
+    def test_ordem_escolaridade_pos_antes_de_mestrado(self):
+        serie = pd.Series(['Doutorado', 'Mestrado', 'Analfabeto', 'Pós-Graduação completa', 'Superior Completo'])
+        ordenada = pd.Series(ordenar_escolaridade(serie)).sort_values().astype(str).tolist()
+        self.assertEqual(ordenada, ['Analfabeto', 'Superior Completo', 'Pós-Graduação completa', 'Mestrado', 'Doutorado'])
+        self.assertEqual(ROTULOS_ESCOLARIDADE.index('Pós-Graduação completa') + 1, ROTULOS_ESCOLARIDADE.index('Mestrado'))
+
+    def test_faixas_etarias_e_limites(self):
+        out = faixa_etaria(pd.Series([17, 18, 24, 25, 34, 35, 54, 55, None]))
+        self.assertEqual(list(out), ['Até 17 anos', '18 a 24 anos', '18 a 24 anos', '25 a 34 anos', '25 a 34 anos',
+                                     '35 a 44 anos', '45 a 54 anos', '55 anos ou mais', 'Não informada'])
+
+    def test_nivel_pelo_grande_grupo_cbo(self):
+        out = nivel_atuacao(pd.Series(['214905', '411005', '784205', '010105']))
+        self.assertEqual(out.tolist(), ['Gestão, engenharia e técnicos', 'Apoio administrativo e serviços',
+                                        'Operacional de base', 'Não classificado'])
 
 class AnalisesTest(unittest.TestCase):
     def setUp(self):
