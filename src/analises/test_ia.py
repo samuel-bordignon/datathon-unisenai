@@ -68,3 +68,18 @@ class ContextoTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ValidacaoCatalogoTest(unittest.TestCase):
+    def test_interpretar_e_concordancia(self):
+        from validar_catalogo_llm import INVALIDA, interpretar, lotes, montar_prompt, resumir
+        texto = '```json\n[{"cbo": "784205", "macrofamilia": "Produção e apoio industrial"}, {"cbo": "1", "macrofamilia": "Inventada"}]\n```'
+        out = interpretar(texto, {'Produção e apoio industrial'})
+        self.assertEqual(out, {'784205': 'Produção e apoio industrial', '000001': INVALIDA})
+        tabela = pd.DataFrame({'concorda': [True, False], 'movimentacoes': [90, 10], 'macrofamilia_llm': ['A', INVALIDA]})
+        self.assertEqual(resumir(tabela), {'n_cbos': 2, 'concordancia_pct': 50.0, 'concordancia_ponderada_pct': 90.0, 'respostas_invalidas': 1})
+        cat = pd.DataFrame({'cbo': ['784205', '214905', '411005'], 'descricao_cbo': ['Alimentador', 'Engenheiro', 'Auxiliar']})
+        self.assertEqual([len(l) for l in lotes(cat, 2)], [2, 1])
+        prompt = montar_prompt(cat, ['A', 'B'])
+        self.assertIn('784205; Alimentador', prompt)
+        self.assertIn('- B', prompt)
