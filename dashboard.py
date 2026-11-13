@@ -16,6 +16,9 @@ from plotly.subplots import make_subplots
 
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ / 'src' / 'analises'))
+sys.path.insert(0, str(RAIZ / 'src'))
+from ia import gemini
+from ia.contexto import PROMPT_HIPOTESES, SISTEMA, montar_contexto, serializar
 from cenarios import (agregar, cbos_deficit, desagio_escolaridade, divergente, evolucao,
                       municipios, sinais)
 from comum import FAIXAS_ETARIAS, MOTIVOS, ORDEM_NIVEIS, ROTULOS_ESCOLARIDADE, SEM_IDADE
@@ -108,6 +111,69 @@ def fluxo_por_motivo(df, dimensao, ordem, titulo, modo, rotulos=None):
                       legend=dict(orientation='h', y=-0.12))
     fig.update_yaxes(categoryorder='array', categoryarray=eixo, autorange='reversed')
     mostrar(fig, max(380, 42 * len(ordem) + 140))
+
+
+@st.cache_data(show_spinner=False, ttl=3600)
+def hipoteses_ia(contexto, modelo, _chave):
+    """Uma chamada por recorte e modelo; a chave fica fora do hash do cache."""
+    return gemini.gerar(PROMPT_HIPOTESES + contexto, _chave, modelo, sistema=SISTEMA, json_saida=True)
+
+
+def secao_ia(estado, recorte, escopo):
+    st.markdown('#### Hipóteses e perguntas com IA (Google Gemini)')
+    chave, modelo = gemini.configuracao(st.secrets)
+    if not chave:
+        st.info('IA desativada: configure `GEMINI_API_KEY` em `.streamlit/secrets.toml` (veja `.streamlit/secrets.toml.example`) '
+                'ou na variável de ambiente `GEMINI_API_KEY` e reinicie o painel.')
+        return
+    contexto = serializar(montar_contexto(estado, recorte, escopo))
+    st.caption(f'Modelo `{modelo}`. O Gemini recebe só tabelas agregadas deste recorte ({numero(len(contexto))} caracteres), nunca os microdados. '
+               'Conteúdo gerado por IA: confira cada número nos gráficos.')
+    if st.button('Gerar hipóteses com IA', type='primary'):
+        st.session_state['hipoteses'] = contexto
+    if st.session_state.get('hipoteses') == contexto:
+        try:
+            with st.spinner('Consultando o Gemini...'):
+                bruto = hipoteses_ia(contexto, modelo, chave)
+        except gemini.ErroIA as erro:
+            st.session_state.pop('hipoteses', None)  # evita repetir a chamada com erro a cada interação
+            st.error(str(erro))
+        else:
+            try:
+                resposta = json.loads(bruto.strip().removeprefix('```json').removesuffix('```'))
+            except json.JSONDecodeError:
+                st.markdown(bruto)
+            else:
+                colunas = st.columns(min(3, max(1, len(resposta.get('hipoteses', [])))))
+                for i, h in enumerate(resposta.get('hipoteses', [])):
+                    with colunas[i % len(colunas)].container(border=True):
+                        st.markdown(f"**{h.get('titulo', '')}**")
+                        st.markdown(f"*Evidência:* {h.get('evidencia', '')}")
+                        st.markdown(f"*Macrofamília:* {h.get('macrofamilia', '')}")
+                        st.markdown(f"*Recomendação:* {h.get('recomendacao', '')}")
+                if resposta.get('limites'):
+                    st.caption('Limites apontados pela IA: ' + ' '.join(resposta['limites']))
+    with st.expander('Conversar com a IA sobre este recorte'):
+        if st.session_state.get('chat_contexto') != contexto:
+            st.session_state['chat_contexto'], st.session_state['chat'] = contexto, []
+        for msg in st.session_state['chat']:
+            with st.chat_message('user' if msg['papel'] == 'user' else 'assistant'):
+                st.markdown(msg['texto'])
+        pergunta = st.chat_input('Ex.: Por que Concórdia aparece como polo de retenção?')
+        if pergunta:
+            historico = st.session_state['chat'][-6:]
+            with st.chat_message('user'):
+                st.markdown(pergunta)
+            with st.chat_message('assistant'):
+                try:
+                    with st.spinner('Consultando o Gemini...'):
+                        texto = gemini.gerar(pergunta, chave, modelo, historico=historico,
+                                             sistema=SISTEMA + '\nCONTEXTO:\n' + contexto)
+                except gemini.ErroIA as erro:
+                    st.error(str(erro))
+                    return
+                st.markdown(texto)
+            st.session_state['chat'] += [{'papel': 'user', 'texto': pergunta}, {'papel': 'model', 'texto': texto}]
 
 
 def tabela(df, colunas, nomes):
@@ -330,4 +396,5 @@ else:
         f"2. **Trilhas SENAI de formação no trabalho** nas macrofamílias com maior déficit de ocupações ({', '.join(fam_deficit) or 'n/d'}), ligadas a bônus de retenção técnica.\n"
         f"3. **Atração de talentos regionais nos polos de expansão** ({'; '.join(f'{r.nome_municipio} · {r.macrofamilia} {sinal(r.saldo)}' for r in expansao.itertuples())}): "
         'parcerias entre FIESC, prefeituras e empresas para captar e qualificar trabalhadores antes que a demanda pressione salários e infraestrutura.')
+    secao_ia(estado, recorte, escopo)
     st.warning('Premissas e limites: ' + LIMITES + ' Macrofamílias definidas por regras elaboradas com IA, sem revisão individual.')
